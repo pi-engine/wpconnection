@@ -15,6 +15,7 @@ return [
         'factories' => [
             Service\CouponService::class => Factory\Service\CouponServiceFactory::class,
             Handler\Admin\Coupon\CouponListHandler::class => Factory\Handler\Admin\Coupon\CouponListHandlerFactory::class,
+            Handler\Admin\Coupon\CouponCreateHandler::class => Factory\Handler\Admin\Coupon\CouponCreateHandlerFactory::class,
         ],
     ],
     'router' => [
@@ -40,6 +41,24 @@ return [
                                     'defaults' => [],
                                 ],
                                 'child_routes' => [
+                                    'create' => [
+                                        'type' => Literal::class,
+                                        'options' => [
+                                            'route' => '/create',
+                                            'defaults' => [
+                                                'module' => 'video',
+                                                'section' => 'api',
+                                                'package' => 'video',
+                                                'handler' => 'list',
+                                                'controller' => PipeSpec::class,
+                                                'middleware' => new PipeSpec(
+                                                    SecurityMiddleware::class,
+                                                    AuthenticationMiddleware::class,
+                                                    Handler\Admin\Coupon\CouponCreateHandler::class
+                                                ),
+                                            ],
+                                        ],
+                                    ],
                                     'list' => [
                                         'type' => Literal::class,
                                         'options' => [

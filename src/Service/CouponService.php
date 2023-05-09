@@ -66,5 +66,24 @@ class CouponService implements ServiceInterface
         return json_decode(json_encode($woocommerce->get($endPoint)), true);
     }
 
+    public function createCoupon(array $params)
+    {
+        // Set woocommerce object
+        $woocommerce = new WooCommerceClient(
+            $this->config['url'],
+            $this->config['ck'],
+            $this->config['cs'],
+            $this->config['option']
+        );
+
+
+        $endPoint = sprintf(
+            'coupons'
+        );
+
+
+        return json_decode(json_encode($woocommerce->post($endPoint,$params)), true);
+    }
+
 
 }
