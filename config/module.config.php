@@ -16,6 +16,7 @@ return [
             Service\CouponService::class => Factory\Service\CouponServiceFactory::class,
             Handler\Admin\Coupon\CouponListHandler::class => Factory\Handler\Admin\Coupon\CouponListHandlerFactory::class,
             Handler\Admin\Coupon\CouponCreateHandler::class => Factory\Handler\Admin\Coupon\CouponCreateHandlerFactory::class,
+            Handler\Admin\Coupon\CouponUpdateHandler::class => Factory\Handler\Admin\Coupon\CouponUpdateHandlerFactory::class,
         ],
     ],
     'router' => [
@@ -46,10 +47,10 @@ return [
                                         'options' => [
                                             'route' => '/create',
                                             'defaults' => [
-                                                'module' => 'video',
-                                                'section' => 'api',
-                                                'package' => 'video',
-                                                'handler' => 'list',
+                                                'module' => '',
+                                                'section' => '',
+                                                'package' => '',
+                                                'handler' => '',
                                                 'controller' => PipeSpec::class,
                                                 'middleware' => new PipeSpec(
                                                     SecurityMiddleware::class,
@@ -59,15 +60,33 @@ return [
                                             ],
                                         ],
                                     ],
+                                    'update' => [
+                                        'type' => Literal::class,
+                                        'options' => [
+                                            'route' => '/update',
+                                            'defaults' => [
+                                                'module' => '',
+                                                'section' => '',
+                                                'package' => '',
+                                                'handler' => '',
+                                                'controller' => PipeSpec::class,
+                                                'middleware' => new PipeSpec(
+                                                    SecurityMiddleware::class,
+                                                    AuthenticationMiddleware::class,
+                                                    Handler\Admin\Coupon\CouponUpdateHandler::class
+                                                ),
+                                            ],
+                                        ],
+                                    ],
                                     'list' => [
                                         'type' => Literal::class,
                                         'options' => [
                                             'route' => '/list',
                                             'defaults' => [
-                                                'module' => 'video',
-                                                'section' => 'api',
-                                                'package' => 'video',
-                                                'handler' => 'list',
+                                                'module' => '',
+                                                'section' => '',
+                                                'package' => '',
+                                                'handler' => '',
                                                 'controller' => PipeSpec::class,
                                                 'middleware' => new PipeSpec(
                                                     SecurityMiddleware::class,
