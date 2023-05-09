@@ -17,6 +17,7 @@ return [
             Handler\Admin\Coupon\CouponListHandler::class => Factory\Handler\Admin\Coupon\CouponListHandlerFactory::class,
             Handler\Admin\Coupon\CouponCreateHandler::class => Factory\Handler\Admin\Coupon\CouponCreateHandlerFactory::class,
             Handler\Admin\Coupon\CouponUpdateHandler::class => Factory\Handler\Admin\Coupon\CouponUpdateHandlerFactory::class,
+            Handler\Admin\Coupon\CouponRetrieveHandler::class => Factory\Handler\Admin\Coupon\CouponRetrieveHandlerFactory::class,
         ],
     ],
     'router' => [
@@ -42,6 +43,24 @@ return [
                                     'defaults' => [],
                                 ],
                                 'child_routes' => [
+                                    'retrieve' => [
+                                        'type' => Literal::class,
+                                        'options' => [
+                                            'route' => '/retrieve',
+                                            'defaults' => [
+                                                'module' => '',
+                                                'section' => '',
+                                                'package' => '',
+                                                'handler' => '',
+                                                'controller' => PipeSpec::class,
+                                                'middleware' => new PipeSpec(
+                                                    SecurityMiddleware::class,
+                                                    AuthenticationMiddleware::class,
+                                                    Handler\Admin\Coupon\CouponRetrieveHandler::class
+                                                ),
+                                            ],
+                                        ],
+                                    ],
                                     'create' => [
                                         'type' => Literal::class,
                                         'options' => [

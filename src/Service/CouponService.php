@@ -34,7 +34,6 @@ class CouponService implements ServiceInterface
     function getCouponList($params)
     {
 
-
         // Set woocommerce object
         $woocommerce = new WooCommerceClient(
             $this->config['url'],
@@ -62,7 +61,6 @@ class CouponService implements ServiceInterface
             );
         }
 
-
         return json_decode(json_encode($woocommerce->get($endPoint)), true);
     }
 
@@ -76,11 +74,9 @@ class CouponService implements ServiceInterface
             $this->config['option']
         );
 
-
         $endPoint = sprintf(
             'coupons'
         );
-
 
         return json_decode(json_encode($woocommerce->post($endPoint, $params)), true);
     }
@@ -95,12 +91,29 @@ class CouponService implements ServiceInterface
             $this->config['option']
         );
 
-
         $endPoint = sprintf(
             'coupons/%s', $params['id']
         );
 
         return json_decode(json_encode($woocommerce->put($endPoint, ['amount' => $params['amount']])), true);
+    }
+
+    public function retrieveCoupon(array $params)
+    {
+        // Set woocommerce object
+        $woocommerce = new WooCommerceClient(
+            $this->config['url'],
+            $this->config['ck'],
+            $this->config['cs'],
+            $this->config['option']
+        );
+
+
+        $endPoint = sprintf(
+            'coupons/%s',$params['id']
+        );
+
+        return json_decode(json_encode($woocommerce->post($endPoint, $params)), true);
     }
 
 
