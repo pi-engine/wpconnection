@@ -3,7 +3,7 @@
 namespace WPConnection\Factory\Handler\Admin\Coupon;
 
 
-use WPConnection\Handler\Admin\Coupon\CouponCreateHandler;
+use WPConnection\Handler\Admin\Coupon\CouponUpdateHandler;
 use WPConnection\Service\CouponService;
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
