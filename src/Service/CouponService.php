@@ -110,10 +110,28 @@ class CouponService implements ServiceInterface
 
 
         $endPoint = sprintf(
-            'coupons/%s',$params['id']
+            'coupons/%s', $params['id']
         );
 
-        return json_decode(json_encode($woocommerce->post($endPoint, $params)), true);
+        return json_decode(json_encode($woocommerce->get($endPoint, $params)), true);
+    }
+
+    public function deleteCoupon(array $params)
+    {
+        // Set woocommerce object
+        $woocommerce = new WooCommerceClient(
+            $this->config['url'],
+            $this->config['ck'],
+            $this->config['cs'],
+            $this->config['option']
+        );
+
+
+        $endPoint = sprintf(
+            'coupons/%s', $params['id']
+        );
+
+        return json_decode(json_encode($woocommerce->delete($endPoint, ['force' => $params['force']])), true);
     }
 
 

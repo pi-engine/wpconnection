@@ -18,6 +18,7 @@ return [
             Handler\Admin\Coupon\CouponCreateHandler::class => Factory\Handler\Admin\Coupon\CouponCreateHandlerFactory::class,
             Handler\Admin\Coupon\CouponUpdateHandler::class => Factory\Handler\Admin\Coupon\CouponUpdateHandlerFactory::class,
             Handler\Admin\Coupon\CouponRetrieveHandler::class => Factory\Handler\Admin\Coupon\CouponRetrieveHandlerFactory::class,
+            Handler\Admin\Coupon\CouponDeleteHandler::class => Factory\Handler\Admin\Coupon\CouponDeleteHandlerFactory::class,
         ],
     ],
     'router' => [
@@ -111,6 +112,24 @@ return [
                                                     SecurityMiddleware::class,
                                                     AuthenticationMiddleware::class,
                                                     Handler\Admin\Coupon\CouponListHandler::class
+                                                ),
+                                            ],
+                                        ],
+                                    ],
+                                    'delete' => [
+                                        'type' => Literal::class,
+                                        'options' => [
+                                            'route' => '/delete',
+                                            'defaults' => [
+                                                'module' => '',
+                                                'section' => '',
+                                                'package' => '',
+                                                'handler' => '',
+                                                'controller' => PipeSpec::class,
+                                                'middleware' => new PipeSpec(
+                                                    SecurityMiddleware::class,
+                                                    AuthenticationMiddleware::class,
+                                                    Handler\Admin\Coupon\CouponDeleteHandler::class
                                                 ),
                                             ],
                                         ],
