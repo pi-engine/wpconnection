@@ -14,6 +14,7 @@ return [
         ],
         'factories' => [
             Service\CouponService::class => Factory\Service\CouponServiceFactory::class,
+            Handler\InstallerHandler::class => Factory\Handler\InstallerHandlerFactory::class,
             Handler\Admin\Coupon\CouponListHandler::class => Factory\Handler\Admin\Coupon\CouponListHandlerFactory::class,
             Handler\Admin\Coupon\CouponCreateHandler::class => Factory\Handler\Admin\Coupon\CouponCreateHandlerFactory::class,
             Handler\Admin\Coupon\CouponUpdateHandler::class => Factory\Handler\Admin\Coupon\CouponUpdateHandlerFactory::class,
@@ -49,14 +50,16 @@ return [
                                         'options' => [
                                             'route' => '/retrieve',
                                             'defaults' => [
-                                                'module' => '',
-                                                'section' => '',
-                                                'package' => '',
-                                                'handler' => '',
+                                                'module' => 'wpconnection',
+                                                'section' => 'admin',
+                                                'package' => 'coupon',
+                                                'handler' => 'retrieve',
+                                                'permissions' => 'coupon-retrieve',
                                                 'controller' => PipeSpec::class,
                                                 'middleware' => new PipeSpec(
                                                     SecurityMiddleware::class,
                                                     AuthenticationMiddleware::class,
+                                                    AuthorizationMiddleware::class,
                                                     Handler\Admin\Coupon\CouponRetrieveHandler::class
                                                 ),
                                             ],
@@ -67,14 +70,16 @@ return [
                                         'options' => [
                                             'route' => '/create',
                                             'defaults' => [
-                                                'module' => '',
-                                                'section' => '',
-                                                'package' => '',
-                                                'handler' => '',
+                                                'module' => 'wpconnection',
+                                                'section' => 'admin',
+                                                'package' => 'coupon',
+                                                'handler' => 'create',
+                                                'permissions' => 'coupon-create',
                                                 'controller' => PipeSpec::class,
                                                 'middleware' => new PipeSpec(
                                                     SecurityMiddleware::class,
                                                     AuthenticationMiddleware::class,
+                                                    AuthorizationMiddleware::class,
                                                     Handler\Admin\Coupon\CouponCreateHandler::class
                                                 ),
                                             ],
@@ -85,14 +90,16 @@ return [
                                         'options' => [
                                             'route' => '/update',
                                             'defaults' => [
-                                                'module' => '',
-                                                'section' => '',
-                                                'package' => '',
-                                                'handler' => '',
+                                                'module' => 'wpconnection',
+                                                'section' => 'admin',
+                                                'package' => 'coupon',
+                                                'handler' => 'update',
+                                                'permissions' => 'coupon-update',
                                                 'controller' => PipeSpec::class,
                                                 'middleware' => new PipeSpec(
                                                     SecurityMiddleware::class,
                                                     AuthenticationMiddleware::class,
+                                                    AuthorizationMiddleware::class,
                                                     Handler\Admin\Coupon\CouponUpdateHandler::class
                                                 ),
                                             ],
@@ -103,14 +110,16 @@ return [
                                         'options' => [
                                             'route' => '/list',
                                             'defaults' => [
-                                                'module' => '',
-                                                'section' => '',
-                                                'package' => '',
-                                                'handler' => '',
+                                                'module' => 'wpconnection',
+                                                'section' => 'admin',
+                                                'package' => 'coupon',
+                                                'handler' => 'list',
+                                                'permissions' => 'coupon-list',
                                                 'controller' => PipeSpec::class,
                                                 'middleware' => new PipeSpec(
                                                     SecurityMiddleware::class,
                                                     AuthenticationMiddleware::class,
+                                                    AuthorizationMiddleware::class,
                                                     Handler\Admin\Coupon\CouponListHandler::class
                                                 ),
                                             ],
@@ -121,18 +130,38 @@ return [
                                         'options' => [
                                             'route' => '/delete',
                                             'defaults' => [
-                                                'module' => '',
-                                                'section' => '',
-                                                'package' => '',
-                                                'handler' => '',
+                                                'module' => 'wpconnection',
+                                                'section' => 'admin',
+                                                'package' => 'coupon',
+                                                'handler' => 'delete',
+                                                'permissions' => 'coupon-delete',
                                                 'controller' => PipeSpec::class,
                                                 'middleware' => new PipeSpec(
                                                     SecurityMiddleware::class,
                                                     AuthenticationMiddleware::class,
+                                                    AuthorizationMiddleware::class,
                                                     Handler\Admin\Coupon\CouponDeleteHandler::class
                                                 ),
                                             ],
                                         ],
+                                    ],
+                                ],
+                            ],
+                            'installer' => [
+                                'type' => Literal::class,
+                                'options' => [
+                                    'route' => '/installer',
+                                    'defaults' => [
+                                        'module' => 'user',
+                                        'section' => 'admin',
+                                        'package' => 'installer',
+                                        'handler' => 'installer',
+                                        'controller' => PipeSpec::class,
+                                        'middleware' => new PipeSpec(
+                                            SecurityMiddleware::class,
+                                            AuthenticationMiddleware::class,
+                                            Handler\InstallerHandler::class
+                                        ),
                                     ],
                                 ],
                             ],
