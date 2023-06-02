@@ -22,26 +22,27 @@ class CouponService implements ServiceInterface
 {
 
     protected $config;
+    protected  WooCommerceClient $woocommerce;
 
     public function __construct(
         $config,
     )
     {
         $this->config = $config;
+        // Set woocommerce object
+        $this->woocommerce= new WooCommerceClient(
+            $this->config['url'],
+            $this->config['ck'],
+            $this->config['cs'],
+            $this->config['option']
+        );
     }
 
     public
     function getCouponList($params)
     {
 
-        // Set woocommerce object
-        $woocommerce = new WooCommerceClient(
-            $this->config['url'],
-            $this->config['ck'],
-            $this->config['cs'],
-            $this->config['option']
-        );
-
+         
 
         $endPoint = sprintf(
             'coupons?page=%s&per_page=%s&order=%s&orderby=%s&search=%s',
@@ -61,41 +62,29 @@ class CouponService implements ServiceInterface
             );
         }
 
-        return json_decode(json_encode($woocommerce->get($endPoint)), true);
+        return json_decode(json_encode($this->woocommerce->get($endPoint)), true);
     }
 
     public function createCoupon(array $params)
     {
-        // Set woocommerce object
-        $woocommerce = new WooCommerceClient(
-            $this->config['url'],
-            $this->config['ck'],
-            $this->config['cs'],
-            $this->config['option']
-        );
+
 
         $endPoint = sprintf(
             'coupons'
         );
 
-        return json_decode(json_encode($woocommerce->post($endPoint, $params)), true);
+        return json_decode(json_encode($this->woocommerce->post($endPoint, $params)), true);
     }
 
     public function updateCoupon(array $params)
     {
-        // Set woocommerce object
-        $woocommerce = new WooCommerceClient(
-            $this->config['url'],
-            $this->config['ck'],
-            $this->config['cs'],
-            $this->config['option']
-        );
+        
 
         $endPoint = sprintf(
             'coupons/%s', $params['id']
         );
 
-        return json_decode(json_encode($woocommerce->put($endPoint, ['amount' => $params['amount']])), true);
+        return json_decode(json_encode($this->woocommerce->put($endPoint, ['amount' => $params['amount']])), true);
     }
 
     public function retrieveCoupon(array $params)
@@ -113,25 +102,18 @@ class CouponService implements ServiceInterface
             'coupons/%s', $params['id']
         );
 
-        return json_decode(json_encode($woocommerce->get($endPoint, $params)), true);
+        return json_decode(json_encode($this->woocommerce->get($endPoint, $params)), true);
     }
 
     public function deleteCoupon(array $params)
     {
-        // Set woocommerce object
-        $woocommerce = new WooCommerceClient(
-            $this->config['url'],
-            $this->config['ck'],
-            $this->config['cs'],
-            $this->config['option']
-        );
-
+        
 
         $endPoint = sprintf(
             'coupons/%s', $params['id']
         );
 
-        return json_decode(json_encode($woocommerce->delete($endPoint, ['force' => $params['force']])), true);
+        return json_decode(json_encode($this->woocommerce->delete($endPoint, ['force' => $params['force']])), true);
     }
 
 
