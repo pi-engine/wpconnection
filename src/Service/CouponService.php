@@ -22,7 +22,8 @@ class CouponService implements ServiceInterface
 {
 
     protected $config;
-    protected  WooCommerceClient $woocommerce;
+    protected WooCommerceClient $woocommerce;
+    protected WooCommerceClient $v3_woocommerce;
 
     public function __construct(
         $config,
@@ -30,11 +31,17 @@ class CouponService implements ServiceInterface
     {
         $this->config = $config;
         // Set woocommerce object
-        $this->woocommerce= new WooCommerceClient(
+        $this->woocommerce = new WooCommerceClient(
             $this->config['url'],
             $this->config['ck'],
             $this->config['cs'],
             $this->config['option']
+        );
+        $this->v3_woocommerce = new WooCommerceClient(
+            $this->config['url'],
+            $this->config['ck'],
+            $this->config['cs'],
+            $this->config['v3_option']
         );
     }
 
@@ -42,10 +49,13 @@ class CouponService implements ServiceInterface
     function getCouponList($params)
     {
 
-         
 
         $endPoint = sprintf(
             'coupons?page=%s&per_page=%s&order=%s&orderby=%s&search=%s',
+            $params['page'], $params['per_page'], $params['order'], $params['orderby'], $params['search']
+        );
+        $v3_endPoint = sprintf(
+            'coupons/count?page=%s&per_page=%s&order=%s&orderby=%s&search=%s',
             $params['page'], $params['per_page'], $params['order'], $params['orderby'], $params['search']
         );
 
@@ -61,8 +71,28 @@ class CouponService implements ServiceInterface
                 $params['before']
             );
         }
+        $list=[];
+        $count = json_decode(json_encode($this->v3_woocommerce->get($v3_endPoint . $endPoint)), true)['count'];
+        $result = $this->woocommerce->get($endPoint);
 
-        return json_decode(json_encode($this->woocommerce->get($endPoint)), true);
+        if (isset($count)) {
+            $list = $count > 0 ? ($result ? json_decode(json_encode($result), true) : []) : [];
+        }
+
+
+        return [
+            'result' => true,
+            'data' => [
+                'list' => $list,
+                'paginator' => [
+                    'count' => $count,
+                    'limit' => $params['per_page'],
+                    'page' => $params['page'],
+                ],
+                'filters' => $params,
+            ],
+            'error' => [],
+        ];
     }
 
     public function createCoupon(array $params)
@@ -78,7 +108,7 @@ class CouponService implements ServiceInterface
 
     public function updateCoupon(array $params)
     {
-        
+
 
         $endPoint = sprintf(
             'coupons/%s', $params['id']
@@ -107,7 +137,7 @@ class CouponService implements ServiceInterface
 
     public function deleteCoupon(array $params)
     {
-        
+
 
         $endPoint = sprintf(
             'coupons/%s', $params['id']
