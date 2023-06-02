@@ -71,7 +71,7 @@ class CouponService implements ServiceInterface
                 $params['before']
             );
         }
-        $list=[];
+        $list = [];
         $count = json_decode(json_encode($this->v3_woocommerce->get($v3_endPoint . $endPoint)), true)['count'];
         $result = $this->woocommerce->get($endPoint);
 
@@ -88,6 +88,7 @@ class CouponService implements ServiceInterface
                     'count' => $count,
                     'limit' => $params['per_page'],
                     'page' => $params['page'],
+                    'page_count' => ceil($count / $params['per_page']),
                 ],
                 'filters' => $params,
             ],
@@ -97,8 +98,6 @@ class CouponService implements ServiceInterface
 
     public function createCoupon(array $params)
     {
-
-
         $endPoint = sprintf(
             'coupons'
         );
