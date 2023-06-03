@@ -62,13 +62,14 @@ class CouponService implements ServiceInterface
         if (isset($params['after'])) {
             $endPoint .= sprintf(
                 '&after=%s',
-                $params['after']
+                date("Y-m-d\TH:i:s", strtotime($params['after'].' 00:00:00'))
+
             );
         }
         if (isset($params['before'])) {
             $endPoint .= sprintf(
                 '&before=%s',
-                $params['before']
+                date("Y-m-d\TH:i:s", strtotime($params['before'].' 00:00:00'))
             );
         }
         $list = [];
