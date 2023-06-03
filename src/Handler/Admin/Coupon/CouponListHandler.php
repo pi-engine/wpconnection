@@ -43,7 +43,7 @@ class CouponListHandler implements RequestHandlerInterface
 
         $params = [
             'page' => $requestBody['page'] ?? 1,
-            'per_page' => $requestBody['per_page'] ?? 10,
+            'per_page' => $requestBody['limit'] ?? 10,
             'order' => $requestBody['order'] ?? 'desc',
             'orderby' => $requestBody['orderby'] ?? 'date',
             'search' => $requestBody['search'] ?? '',
